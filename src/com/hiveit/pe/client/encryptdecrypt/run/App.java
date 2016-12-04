@@ -32,5 +32,4 @@ public class App {
 			JOptionPane.showMessageDialog(null, "Error en el flujo "+e);
 		}
 	}
-
 }
