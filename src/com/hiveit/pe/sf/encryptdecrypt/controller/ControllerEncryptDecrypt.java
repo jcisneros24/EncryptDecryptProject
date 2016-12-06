@@ -18,9 +18,9 @@ public class ControllerEncryptDecrypt implements ActionListener {
 	
 	public ControllerEncryptDecrypt(JFEncryptDecrypt viewEncryptDecrypt, ModelEncryptDecrypt modelEncryptDecrypt){
 		this.viewEncryptDecrypt = viewEncryptDecrypt;
-		this.modelEncryptDecrypt = modelEncryptDecrypt;
-		this.viewEncryptDecrypt.btnExecute.addActionListener(this);
+		this.modelEncryptDecrypt = modelEncryptDecrypt;		
 		this.viewEncryptDecrypt.comboBox.addActionListener(this);
+		this.viewEncryptDecrypt.btnExecute.addActionListener(this);
 		deshabilitarCasillas();
 	}
 	
@@ -31,29 +31,28 @@ public class ControllerEncryptDecrypt implements ActionListener {
 			EncryptDecryptRequest request = new EncryptDecryptRequest();
 				
 			if(e.getSource() == viewEncryptDecrypt.comboBox){
-				habilitarCasillas();
-				request.setTypeOpc(viewEncryptDecrypt.comboBox.getSelectedItem().toString());				
-				if(e.getSource() == viewEncryptDecrypt.btnExecute){
-					
-					if(validarcampos()==true){																
-						request.setCodEncrypt(viewEncryptDecrypt.txtCodEncrypt.getText());
-						request.setKey(viewEncryptDecrypt.txtKey.getText().getBytes());														
-						response = modelEncryptDecrypt.modelEncryptDecrypt(request);
-						String rpta= response.getCodRpta();
-						if(!rpta.isEmpty() && rpta != null){
-							JOptionPane.showMessageDialog(null, response.getMsgRpta());
-							viewEncryptDecrypt.txtCodEncrypted.setText(response.getCodEncrypted());
-						}
-						
+				habilitarCasillas();								
+			}
+			if(e.getSource() == viewEncryptDecrypt.btnExecute){
+				
+				if(validarcampos()==true){	
+					request.setTypeOpc(viewEncryptDecrypt.comboBox.getSelectedItem().toString());
+					request.setCodEncrypt(viewEncryptDecrypt.txtCodEncrypt.getText());
+					request.setKey(viewEncryptDecrypt.txtKey.getText().getBytes());														
+					response = modelEncryptDecrypt.modelEncryptDecrypt(request);
+					String rpta= response.getCodRpta();
+					if(!rpta.isEmpty() && rpta != null){
+						JOptionPane.showMessageDialog(null, response.getMsgRpta());
+						viewEncryptDecrypt.txtCodEncrypted.setText(response.getCodEncrypted());
 					}
+					
 				}
 			}
 								
 		} catch (Exception ex) {				
 			JOptionPane.showMessageDialog(null,response.getMsgRpta());
 		}
-		limpiarCasillas();
-	    viewEncryptDecrypt.txtCodEncrypt.requestFocus();
+
 	}
 	protected void habilitarCasillas() {
 	    boolean enabled = false;
@@ -62,15 +61,22 @@ public class ControllerEncryptDecrypt implements ActionListener {
 			viewEncryptDecrypt.txtCodEncrypt.setEnabled(enabled);
 			viewEncryptDecrypt.txtCodDecrypt.setEnabled(false);
 			viewEncryptDecrypt.txtKey.setEnabled(false);
+			limpiarCasillas();
+		    viewEncryptDecrypt.txtCodEncrypt.requestFocus();
 		}else if(viewEncryptDecrypt.comboBox.getSelectedItem().equals(propertiesExterno.getOpcDecrypt())){
 			enabled = true;
 			viewEncryptDecrypt.txtCodEncrypt.setEnabled(false);
 			viewEncryptDecrypt.txtCodDecrypt.setEnabled(enabled);
 			viewEncryptDecrypt.txtKey.setEnabled(enabled);
+			limpiarCasillas();
+		    viewEncryptDecrypt.txtCodDecrypt.requestFocus();
 		}  
 	}
     private void limpiarCasillas(){
         viewEncryptDecrypt.txtCodEncrypt.setText("");
+        viewEncryptDecrypt.txtCodDecrypt.setText("");
+        viewEncryptDecrypt.txtKey.setText("");
+        viewEncryptDecrypt.txtCodEncrypted.setText("");
     }
     private boolean validarcampos(){
     	boolean flag=true;

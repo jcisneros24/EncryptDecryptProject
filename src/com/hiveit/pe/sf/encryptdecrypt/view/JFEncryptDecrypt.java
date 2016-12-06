@@ -87,7 +87,7 @@ public class JFEncryptDecrypt extends JFrame {
 		contentPane.add(txtCodDecrypt);
 		txtCodDecrypt.setColumns(10);
 		
-		lblOpction = new JLabel("Opction:");
+		lblOpction = new JLabel("Opction :");
 		lblOpction.setBounds(54, 37, 56, 14);
 		contentPane.add(lblOpction);
 		
